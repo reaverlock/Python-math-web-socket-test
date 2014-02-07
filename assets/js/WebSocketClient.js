@@ -31,8 +31,16 @@ function WebSocketClient(serverURI, handler) {
 WebSocketClient.prototype.send = function(message) {
     if (this.ws.readyState == this.STATE_CONNECTED) {
         //message = "prueba de prepend: " + message //agregada en el envio
+        /*message = {
+            'type': 'mensaje',
+            'user': 'pedro',
+            'message': 'hello world'
+        }*/
         this.handler.send(message);
         this.ws.send(message);
+        //JSON.stringify(message)
+
+
     } else {
         this.handler.onError("Not Connected");
     }

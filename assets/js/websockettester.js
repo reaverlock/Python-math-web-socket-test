@@ -36,14 +36,22 @@ $(document).ready(function() {
 
     // assign event handler to the send button
     $("#send").click(function(e) {
-        var message = $("#prompt").val();
+        var numero = $("#prompt").val();
+        message = {
+            'type': 'sqr',
+            'number': numero,
+        }
         window.WebSocketClient.send(message);
         $("#prompt").val('');
         e.preventDefault();
     });
 
     $("#suma").click(function(e) {
-        var message = $("#prompt").val();
+        var numero = $("#prompt").val();
+        message = {
+            'type': 'add',
+            'number': numero,
+        }
         window.WebSocketClient.send(message);
         $("#prompt").val('');
         e.preventDefault();

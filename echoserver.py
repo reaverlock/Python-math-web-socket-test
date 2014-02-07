@@ -4,19 +4,7 @@ import tornado.web
 import tornado.websocket
 import tornado.ioloop
 
-
-class Sumatoria(tornado.websocket.WebSocketHandler):
-
-    def open(self):
-        print "sumatoria connected"
-        self.write_message("sumatoria conected")
-
-    def on_message(self, message):
-        sumatoria = int(message) + int(message)
-        self.write_message(sumatoria)
-
-    def on_close(self):
-        print "Client disconnected sumatoria"
+from tornado.escape import json_decode
 
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -31,16 +19,15 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         self.write_message(message)'''
 
     def on_message(self, message):
-        if 'test' in message:
-            message = "este fue un TEST: %s" % message
-        elif 'add' in message:
-            message = message[-2:]
-            message = "sumando...resultado = %s" % (
-                str(int(message) + int(message)))
-        elif 'sqr' in message:
-            message = message[-2:]
-            message = "cuadrado es: %s" % (
-                str(int(message) * int(message)))
+        data = json_decode(message)
+        if data.get('type') == 'sqr':
+            message = int(data.get('number'))
+            message = str(message * message)
+        elif data.get('type') == 'add':
+            message = int(data.get('number'))
+            message = str(message + message)
+        else:
+            message = 'No habia un numero en ese objeto'
         self.write_message(message)
 
     def on_close(self):
@@ -49,7 +36,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 application = tornado.web.Application([
     (r"/", WebSocketHandler),
-    (r"/sumatoria", Sumatoria),
+
 ])
 
 if __name__ == "__main__":
