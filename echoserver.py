@@ -25,9 +25,22 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print "New client connected"
         self.write_message("You are connected")
 
+    '''def on_message(self, message):
+        message = "el cuadrado de lo que hiciste es: + str(
+            int(message) * int(message))""
+        self.write_message(message)'''
+
     def on_message(self, message):
-        message = 'el cuadrado de lo que hiciiste es: %s' % str(
-            int(message) * int(message))
+        if 'test' in message:
+            message = "este fue un TEST: %s" % message
+        elif 'add' in message:
+            message = message[-2:]
+            message = "sumando...resultado = %s" % (
+                str(int(message) + int(message)))
+        elif 'sqr' in message:
+            message = message[-2:]
+            message = "cuadrado es: %s" % (
+                str(int(message) * int(message)))
         self.write_message(message)
 
     def on_close(self):

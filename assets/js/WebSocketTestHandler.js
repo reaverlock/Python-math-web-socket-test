@@ -11,11 +11,17 @@ function WebSocketTestHandler(console) {
     this.con = console;
 }
 
+//he creado esta funcion
+function prueba(message) {
+    message = 'prueba: ' + message;
+}
 /**
  *  when the user tries to send a message,
  *  publish your message into the console
  */
 WebSocketTestHandler.prototype.send = function(message) {
+    /*hacer una funcion con nombre real el cliente agrega el texto pero el server no lo recive*/
+
     this.con.appendFromClient(message);
 }
 
